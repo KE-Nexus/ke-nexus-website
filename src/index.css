@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-ink-800 antialiased dark:bg-ink-950 dark:text-ink-100;
+    font-feature-settings: 'ss01' 1, 'cv01' 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
+  }
+
+  ::selection {
+    @apply bg-gold-400/30 text-ink-900;
+  }
+
+  /* Consistent, visible focus ring for keyboard users across the whole site */
+  :focus-visible {
+    @apply outline-none ring-2 ring-gold-400 ring-offset-2 ring-offset-white dark:ring-offset-ink-950;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .container-page {
+    @apply mx-auto w-full max-w-8xl px-6 sm:px-8 lg:px-12;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Slim, low-contrast scrollbar that fits both themes */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: theme('colors.ink.300');
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: theme('colors.ink.700');
+  background-clip: content-box;
+}
