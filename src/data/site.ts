@@ -3,6 +3,7 @@ export const NAV_LINKS = [
   { label: 'Services', href: '#services' },
   { label: 'Process', href: '#process' },
   { label: 'Work', href: '#work' },
+  { label: 'Pricing', href: '#pricing' },
   { label: 'Testimonials', href: '#testimonials' },
   { label: 'Contact', href: '#contact' },
 ];
@@ -15,7 +16,7 @@ export const SOCIAL_LINKS = [
 ];
 
 export const CONTACT_INFO = {
-  email: 'hello@kenexus.com',
-  phone: '+1 (302) 555-0173',
+  email: 'kandenexus@gmail.com',
+  phones: ['07064655983', '07037747640'],
   location: 'Remote-first — serving clients worldwide',
 };

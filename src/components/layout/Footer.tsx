@@ -69,7 +69,16 @@ export function Footer() {
                     {CONTACT_INFO.email}
                   </a>
                 </li>
-                <li>{CONTACT_INFO.phone}</li>
+                {CONTACT_INFO.phones.map((phone) => (
+                  <li key={phone}>
+                    <a
+                      href={`tel:+234${phone.slice(1)}`}
+                      className="transition-colors hover:text-gold-700 dark:hover:text-gold-400"
+                    >
+                      {phone}
+                    </a>
+                  </li>
+                ))}
                 <li>{CONTACT_INFO.location}</li>
               </ul>
             </div>

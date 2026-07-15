@@ -6,9 +6,14 @@ import { Button } from '../ui/Button';
 import { SocialIcon } from '../ui/SocialIcon';
 import { CONTACT_INFO, SOCIAL_LINKS } from '../../data/site';
 
-type Status = 'idle' | 'submitting' | 'success' | 'error';
+type Status = 'idle' | 'submitting' | 'success' | 'validation-error' | 'submit-error';
 
-const CONTACT_ENDPOINT = import.meta.env.VITE_CONTACT_ENDPOINT as string | undefined;
+// FormSubmit relays the payload to kandenexus@gmail.com with no backend of our own.
+// The first submission triggers a one-time confirmation email that must be clicked
+// before it starts forwarding automatically. Override via VITE_CONTACT_ENDPOINT if needed.
+const CONTACT_ENDPOINT =
+  (import.meta.env.VITE_CONTACT_ENDPOINT as string | undefined) ??
+  'https://formsubmit.co/ajax/kandenexus@gmail.com';
 
 export function Contact() {
   const [status, setStatus] = useState<Status>('idle');
@@ -19,10 +24,11 @@ export function Contact() {
     const data = new FormData(form);
     const name = String(data.get('name') ?? '').trim();
     const email = String(data.get('email') ?? '').trim();
+    const company = String(data.get('company') ?? '').trim();
     const message = String(data.get('message') ?? '').trim();
 
     if (!name || !email || !message) {
-      setStatus('error');
+      setStatus('validation-error');
       return;
     }
 
@@ -32,21 +38,30 @@ export function Contact() {
       if (CONTACT_ENDPOINT) {
         const res = await fetch(CONTACT_ENDPOINT, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(Object.fromEntries(data)),
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            name,
+            email,
+            company,
+            message,
+            _subject: `New project inquiry from ${name}`,
+            _template: 'table',
+            _captcha: 'false',
+          }),
         });
-        if (!res.ok) throw new Error('Request failed');
+        const result = await res.json().catch(() => null);
+        if (!res.ok || result?.success === 'false') throw new Error('Request failed');
       } else {
         const subject = encodeURIComponent(`New project inquiry from ${name}`);
         const body = encodeURIComponent(
-          `${message}\n\n— ${name} (${email})\nCompany: ${data.get('company') ?? 'n/a'}`,
+          `${message}\n\n— ${name} (${email})\nCompany: ${company || 'n/a'}`,
         );
         window.location.href = `mailto:${CONTACT_INFO.email}?subject=${subject}&body=${body}`;
       }
       setStatus('success');
       form.reset();
     } catch {
-      setStatus('error');
+      setStatus('submit-error');
     }
   };
 
@@ -70,15 +85,22 @@ export function Contact() {
               </span>
               {CONTACT_INFO.email}
             </a>
-            <a
-              href={`tel:${CONTACT_INFO.phone.replace(/[^+\d]/g, '')}`}
-              className="flex items-center gap-3 text-ink-700 transition-colors hover:text-gold-700 dark:text-ink-200 dark:hover:text-gold-400"
-            >
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-ink-100 dark:bg-white/10">
+            <div className="flex items-center gap-3 text-ink-700 dark:text-ink-200">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-ink-100 dark:bg-white/10">
                 <Phone className="h-[18px] w-[18px]" aria-hidden="true" />
               </span>
-              {CONTACT_INFO.phone}
-            </a>
+              <span className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                {CONTACT_INFO.phones.map((phone) => (
+                  <a
+                    key={phone}
+                    href={`tel:+234${phone.slice(1)}`}
+                    className="transition-colors hover:text-gold-700 dark:hover:text-gold-400"
+                  >
+                    {phone}
+                  </a>
+                ))}
+              </span>
+            </div>
             <div className="flex items-center gap-3 text-ink-700 dark:text-ink-200">
               <span className="flex h-10 w-10 items-center justify-center rounded-full bg-ink-100 dark:bg-white/10">
                 <MapPin className="h-[18px] w-[18px]" aria-hidden="true" />
@@ -181,9 +203,18 @@ export function Contact() {
                     Thanks — we'll be in touch within one business day.
                   </span>
                 )}
-                {status === 'error' && (
+                {status === 'validation-error' && (
                   <span className="text-sm font-medium text-red-600 dark:text-red-400">
                     Please fill in your name, email, and message.
+                  </span>
+                )}
+                {status === 'submit-error' && (
+                  <span className="text-sm font-medium text-red-600 dark:text-red-400">
+                    Something went wrong sending that — please email us directly at{' '}
+                    <a href={`mailto:${CONTACT_INFO.email}`} className="underline">
+                      {CONTACT_INFO.email}
+                    </a>
+                    .
                   </span>
                 )}
               </div>

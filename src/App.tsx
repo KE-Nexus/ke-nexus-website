@@ -1,12 +1,14 @@
 import { ThemeProvider } from './theme/ThemeContext';
 import { Navbar } from './components/layout/Navbar';
 import { Footer } from './components/layout/Footer';
+import { Cover } from './components/sections/Cover';
 import { Hero } from './components/sections/Hero';
 import { TrustBar } from './components/sections/TrustBar';
 import { About } from './components/sections/About';
 import { Services } from './components/sections/Services';
 import { Process } from './components/sections/Process';
 import { Portfolio } from './components/sections/Portfolio';
+import { Pricing } from './components/sections/Pricing';
 import { Testimonials } from './components/sections/Testimonials';
 import { Stats } from './components/sections/Stats';
 import { CtaBanner } from './components/sections/CtaBanner';
@@ -23,12 +25,14 @@ function App() {
       </a>
       <Navbar />
       <main id="main">
+        <Cover />
         <Hero />
         <TrustBar />
         <About />
         <Services />
         <Process />
         <Portfolio />
+        <Pricing />
         <Testimonials />
         <Stats />
         <CtaBanner />
