@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Machine-specific npm config (e.g. script-shell) — must not be committed,
+# it broke Vercel's Linux build when it pointed at a local Windows path.
+.npmrc
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
