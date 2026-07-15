@@ -1,15 +1,15 @@
 export interface Testimonial {
-  quote: string;
-  name: string;
-  role: string;
-  company: string;
-  initials: string;
+  quote: string
+  name: string
+  role: string
+  company: string
+  initials: string
 }
 
 export const TESTIMONIALS: Testimonial[] = [
   {
     quote:
-      'We came in with a mess of spreadsheets and no idea what "custom software" even meant for a company our size. K&E Nexus translated that into a real system in under three months.',
+      'A complete game-changer for our operations. The team at K&E Nexus understood our needs and delivered a solution that exceeded expectations.',
     name: 'Marissa Okafor',
     role: 'Operations Director',
     company: 'Regional Fleet Logistics',
@@ -39,4 +39,4 @@ export const TESTIMONIALS: Testimonial[] = [
     company: 'Northgate Manufacturing',
     initials: 'DM',
   },
-];
+]
