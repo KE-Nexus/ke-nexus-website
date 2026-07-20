@@ -8,8 +8,12 @@ export interface Testimonial {
 
 export const TESTIMONIALS: Testimonial[] = [
   {
-    quote:
-      'A complete game-changer for our operations. The team at K&E Nexus understood our needs and delivered a solution that exceeded expectations.',
+    quote: `Build Your Business Online from Just ₦99,000. 
+
+      Professional websites and custom web applications designed to help your business grow, attract more customers, and increase sales.
+
+      Get Started Today
+      `,
     name: 'Marissa Okafor',
     role: 'Operations Director',
     company: 'Regional Fleet Logistics',

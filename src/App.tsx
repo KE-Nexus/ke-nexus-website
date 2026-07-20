@@ -29,10 +29,10 @@ function App() {
         <Hero />
         <TrustBar />
         <About />
+        <Pricing />
         <Services />
         <Process />
         <Portfolio />
-        <Pricing />
         <Testimonials />
         <Stats />
         <CtaBanner />
