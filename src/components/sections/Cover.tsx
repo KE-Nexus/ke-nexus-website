@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import clsx from 'clsx';
-import { Quote } from 'lucide-react';
-import { TESTIMONIALS } from '../../data/testimonials';
-
-const featured = TESTIMONIALS[0];
+import { ArrowRight } from 'lucide-react';
+import { Button } from '../ui/Button';
 
 export function Cover() {
   const [loaded, setLoaded] = useState(false);
@@ -39,13 +37,20 @@ export function Cover() {
 
       <div className="absolute inset-x-0 bottom-0 z-10 pb-8 sm:pb-12">
         <div className="container-page max-w-2xl">
-          <Quote className="h-7 w-7 text-gold-400/80 sm:h-8 sm:w-8" aria-hidden="true" />
-          <p className="mt-3 break-words text-balance text-lg font-medium leading-snug text-white sm:text-2xl">
-            &ldquo;{featured.quote}&rdquo;
+          <p className="break-words text-balance text-2xl font-semibold leading-snug text-white sm:text-4xl">
+            Build Your Business Online from Just{' '}
+            <span className="inline-block whitespace-nowrap rounded-lg bg-gold-400 px-2.5 py-0.5 text-3xl font-bold text-ink-950 sm:text-5xl">
+              ₦99,000
+            </span>
           </p>
-          <p className="mt-3 break-words text-sm text-ink-200">
-            {featured.name} &middot; {featured.role}, {featured.company}
+          <p className="mt-4 max-w-xl break-words text-balance text-sm text-ink-200 sm:text-lg">
+            Professional websites and custom web applications designed to help your business
+            grow, attract more customers, and increase sales.
           </p>
+          <Button href="#contact" size="lg" className="mt-6">
+            Get Started Today
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </Button>
         </div>
       </div>
     </section>
